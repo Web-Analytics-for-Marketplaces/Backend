@@ -1,0 +1,11 @@
+# 2. auth_project/urls.py (COMPLETE FILE)
+"""
+URL configuration for auth_project project.
+"""
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/auth/', include('authentication.urls')),
+]
