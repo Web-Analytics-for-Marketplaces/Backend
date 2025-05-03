@@ -1,164 +1,150 @@
-# test-task-wb-ads-panel
+Instructions
+Copy the file named .env.example and rename it to .env.
 
-![](/docs/main.png)
+Fill in the MONGO_USER and MONGO_PASSWORD variables in the .env file. You can leave the sample values from .env.example for testing.
 
-## Инструкция
+Running with Docker
+Build and start the containers:
 
-1. Скопируйте файл `.env.example` и переименуйте в `.env`
-2. Заполните переменные `MONGO_USER` и `MONGO_PASSWORD` в файле `.env`. Можно оставить тестовые значения из файла `.env.example`
-
-## Запуск (с Docker)
-
-1. Запустите проект командой
-
-```bash
+bash
+Копировать
+Редактировать
 docker-compose up -d --build
-```
+Open the frontend in your browser:
+http://localhost
 
-2. Перейдите по ссылке на фронтенд: http://localhost
+View the Swagger API documentation:
+http://localhost:8000/docs
 
-3. Перейдите по ссылке на документацию Swagger API: http://localhost:8000/docs
+Access the MongoDB admin panel, logging in with username user and password 123:
+http://localhost:8081
 
-4. Перейдите по ссылке на админ-панель MongoDB и введите `user` и `123` для авторизации: http://localhost:8081
+Storybook
+From the project root, start Storybook:
 
-## Storybook
-
-1. Запустите Storybook командой
-
-```bash
+bash
+Копировать
+Редактировать
 cd frontend
 pnpm sb
-```
+Open Storybook in your browser:
+http://localhost:6006
 
-2. Перейдите по ссылке: http://localhost:6006
+Tests
+Run unit and component tests in the terminal:
 
-## Тесты
-
-1. Запустите тесты в терминале командой
-
-```bash
+bash
+Копировать
+Редактировать
 cd frontend
 pnpm test
-```
+Run the test UI in the browser:
 
-2. Запустите тесты в веб-интерфейсе командой
-
-```bash
+bash
+Копировать
+Редактировать
 cd frontend
 pnpm test:ui
-```
+Open the test report:
+http://localhost:51204/__vitest__/#/
 
-3. Перейдите по ссылке: [http://localhost:51204/\_\_vitest\_\_/#/](http://localhost:51204/__vitest__/#/)
+End-to-End (E2E) Tests
+Run E2E tests in the terminal:
 
-## E2E-тесты
-
-1. Запустите e2e-тесты в терминале командой
-
-```bash
+bash
+Копировать
+Редактировать
 cd frontend
 pnpm test:e2e
-```
+Run the E2E test UI in the browser:
 
-2. Запустите e2e-тесты в веб-интерфейсе командой
-
-```bash
+bash
+Копировать
+Редактировать
 cd frontend
 pnpm test:e2e-ui
-```
-
-## Playwright команды
-
-```bash
-# Runs the end-to-end tests
+Playwright Commands
+bash
+Копировать
+Редактировать
+# Run all end-to-end tests
 pnpm exec playwright test
 
-# Starts the interactive UI mode
+# Start interactive test UI
 pnpm exec playwright test --ui
 
-# Runs the tests only on Desktop Chrome
+# Run only on Chromium
 pnpm exec playwright test --project=chromium
 
-# Runs the tests in a specific file
-pnpm exec playwright test example
+# Run tests in a specific file
+pnpm exec playwright test path/to/file.spec.ts
 
-# Runs the tests in debug mode
+# Debug tests
 pnpm exec playwright test --debug
 
-# Auto generate tests with Codegen
+# Generate tests with Codegen
 pnpm exec playwright codegen
-```
+Example Wildberries API Request
+Endpoint:
 
-## Пример запроса к Wildberries API
-
-API URL:
-
-```
+bash
+Копировать
+Редактировать
 POST https://app.marketspace.ru/testing-api/adv/v2/fullstats
-```
+Request Body:
 
-Body:
-
-```json
+json
+Копировать
+Редактировать
 [
-  {
-    "id": 19447497,
-    "dates": ["2024-10-08"]
-  },
-  {
-    "id": 18854755,
-    "dates": ["2024-10-08"]
-  }
+  { "id": 19447497, "dates": ["2024-10-08"] },
+  { "id": 18854755, "dates": ["2024-10-08"] }
 ]
-```
+Requirements Document
+Access the specification here:
+https://docs.google.com/document/d/1IT78RNaJeabQUcPnHYBCZDoC12Xx-HvsWzWWYHOss8Q/
 
-## ТЗ
+Key Terms
 
-Ссылка: https://docs.google.com/document/d/1IT78RNaJeabQUcPnHYBCZDoC12Xx-HvsWzWWYHOss8Q/edit?pli=1&tab=t.0
+Advert: an advertising campaign
 
-Термины
+nm: a product (item)
 
-Advert - рекламная кампание, nm - продукт
+Tasks
 
-Требуется:
+Build a NestJS + TypeScript API with MongoDB.
 
-- Написать API используя nestjs, typescript, mongodb
-- Реализовать общение с api wb(https://openapi.wildberries.ru/promotion/api/ru/#tag/Statistika/paths/~1adv~1v2~1fullstats/post). Ссылка для работы с самим api https://app.marketspace.ru/testing-api/(дальше адрес запроса как в wb, токен уже вставлен)
-- Написать front-end часть на react + typescript который будет кидать запрос и выводить табличку nm-ов и суммарную стату. Фильтры должны быть как в бэке. Если есть возможность в идеале стилизовать
-- Если прям совсем возможности есть можно добавить Docker, eslint, доп утилитарные вещи, валидцию, swagger
+Integrate with the Wildberries stats API (use the testing proxy at https://app.marketspace.ru/testing-api/…).
 
-Приложение должно иметь метод на запрос статистики за конкретный день, конкретной рекламы(примеры рк 19447497, 18854755). Данные должны быть сгруппированы по nmId. Также должна быть суммарная статистика. Сначала данным надо искать в mongo, если нет то запрашивать и записывать туда
+Create a React + TypeScript frontend that sends requests and displays a table of nm items with their aggregated statistics, including filters matching the backend.
 
-Запрос:
+(Optional) Add Docker support, ESLint, additional utilities, validation, and Swagger documentation.
 
-```json
+Behavior
+
+The API must accept a request for a single advert ID and date, for example:
+
+json
+Копировать
+Редактировать
+{ "advert": 12, "date": "2024-09-09" }
+It should first look up the data in MongoDB. If not found, it should fetch from Wildberries, store it in MongoDB, and then return it.
+
+The response must include:
+
+A summary object with total clicks, ctr, and cpc.
+
+A list array of objects grouped by nmId, each with clicks, ctr, and cpc.
+
+Sample Response:
+
+json
+Копировать
+Редактировать
 {
-  "advert": 12,
-  "date": "2024-09-09"
-}
-```
-
-Ответ:
-
-```json
-{
-  "summary": {
-    "clicks": 2,
-    "ctr": 0.19,
-    "cpc": 0.09
-  },
+  "summary": { "clicks": 2, "ctr": 0.19, "cpc": 0.09 },
   "list": [
-    {
-      "nmId": 123,
-      "clicks": 2,
-      "ctr": 0.19,
-      "cpc": 0.09
-    },
-    {
-      "nmId": 124,
-      "clicks": 2,
-      "ctr": 0.19,
-      "cpc": 0.09
-    }
+    { "nmId": 123, "clicks": 2, "ctr": 0.19, "cpc": 0.09 },
+    { "nmId": 124, "clicks": 2, "ctr": 0.19, "cpc": 0.09 }
   ]
 }
-```
